@@ -2,6 +2,7 @@ package org.tanar.ui.login;
 
 import android.app.Activity;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -24,38 +26,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.tanar.R;
+import org.tanar.data.LoginResult;
+import org.tanar.data.Repository;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private LoginViewModel loginViewModel;
+    private Repository repository;
+    private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
+        repository = Repository.getInstance();
 
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
-        // Intent intent = new Intent(this, MapsActivity.class);
-        loginViewModel.getLoginFormState().observe(this, loginFormState -> {
-            if (loginFormState == null) {
-                return;
-            }
-            loginButton.setEnabled(loginFormState.isDataValid());
-            if (loginFormState.getUsernameError() != null) {
-                usernameEditText.setError(getString(loginFormState.getUsernameError()));
-            }
-            if (loginFormState.getPasswordError() != null) {
-                passwordEditText.setError(getString(loginFormState.getPasswordError()));
-            }
-        });
 
-        loginViewModel.getLoginResult().observe(this, loginResult -> {
+        loginResult.observe(this, loginResult -> {
             if (loginResult == null) {
                 return;
             }
@@ -85,24 +76,31 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                boolean isDataValid = false;
+                if (!isUserNameValid(usernameEditText.getText().toString())) {
+                    usernameEditText.setError(getString(R.string.invalid_username));
+                } else if (!isPasswordValid(passwordEditText.getText().toString())) {
+                    passwordEditText.setError(getString(R.string.invalid_password));
+                } else {
+                    isDataValid = true;
+                }
+                loginButton.setEnabled(isDataValid);
             }
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                repository.login(usernameEditText.getText().toString(),
+                        passwordEditText.getText().toString(), loginResult);
             }
             return false;
         });
 
         loginButton.setOnClickListener(v -> {
             loadingProgressBar.setVisibility(View.VISIBLE);
-            loginViewModel.login(usernameEditText.getText().toString(),
-                    passwordEditText.getText().toString());
+            repository.login(usernameEditText.getText().toString(),
+                    passwordEditText.getText().toString(), loginResult);
         });
     }
 
@@ -114,5 +112,21 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean isUserNameValid(String username) {
+        if (username == null) {
+            return false;
+        }
+        if (username.contains("@")) {
+            return Patterns.EMAIL_ADDRESS.matcher(username).matches();
+        } else {
+            return !username.trim().isEmpty();
+        }
+    }
+
+    // A placeholder password validation check
+    private boolean isPasswordValid(String password) {
+        return password != null && password.trim().length() > 5;
     }
 }
