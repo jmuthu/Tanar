@@ -2,6 +2,7 @@ package org.tanar.ui.login;
 
 import android.app.Activity;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -42,10 +43,17 @@ public class LoginActivity extends AppCompatActivity {
 
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
-        final Button loginButton = findViewById(R.id.login);
+        final AppCompatButton loginButton = findViewById(R.id.login);
+        AppCompatButton signup=findViewById(R.id.signup);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
 
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //GOES TO REGISTRATION CLASS
+            }
+        });
         loginResult.observe(this, loginResult -> {
             if (loginResult == null) {
                 return;
