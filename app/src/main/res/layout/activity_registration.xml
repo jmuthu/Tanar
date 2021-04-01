@@ -207,11 +207,13 @@
             android:layout_width="108dp"
             android:layout_height="wrap_content"
             android:checked="true"
+            android:textColor="@color/black"
             android:text="Student" />
 
         <RadioButton
             android:id="@+id/tutor_radio_button"
             android:layout_width="95dp"
+            android:textColor="@color/black"
             android:layout_height="wrap_content"
             android:text="Tutor" />
 
