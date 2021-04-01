@@ -5,17 +5,19 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import org.tanar.R;
 import org.tanar.data.model.LoggedInUser;
+import org.tanar.data.model.Subject;
 import org.tanar.data.model.Tutor;
+import org.tanar.data.result.CreateUserResult;
+import org.tanar.data.result.LoginResult;
+import org.tanar.data.result.SubjectResult;
+import org.tanar.data.result.TutorsNearbyResult;
 import org.tanar.utils.Utils;
 
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class Repository {
     // If user credentials will be cached in local storage, it is recommended it be encrypted
     // @see https://developer.android.com/training/articles/keystore
     private LoggedInUser user = null;
+    private Subject subject = null;
 
     // private constructor : singleton access
     private Repository() {
@@ -149,5 +152,23 @@ public class Repository {
             }
         });
 
+    }
+
+    public void getSubjects(MutableLiveData<SubjectResult> subjectsResult) {
+        db.collection("Subjects").get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        List<Subject> subjectList = new ArrayList<Subject>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            Subject subject = new Subject(document.getId(), document.getString("Name"));
+                            subjectList.add(subject);
+                        }
+                        subjectsResult.setValue(new SubjectResult(subjectList));
+                    } else {
+                        Log.w(TAG, "Error getting documents.", task.getException());
+                        subjectsResult.setValue(new SubjectResult(R.string.login_failed));
+                    }
+                });
     }
 }

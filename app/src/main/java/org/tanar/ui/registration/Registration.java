@@ -24,7 +24,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.tanar.R;
-import org.tanar.data.CreateUserResult;
+import org.tanar.data.result.CreateUserResult;
 import org.tanar.data.Repository;
 import org.tanar.utils.PermissionUtils;
 import org.tanar.utils.Utils;

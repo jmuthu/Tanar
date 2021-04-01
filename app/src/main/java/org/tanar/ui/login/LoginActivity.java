@@ -17,12 +17,10 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.tanar.R;
-import org.tanar.data.LoginResult;
+import org.tanar.data.result.LoginResult;
 import org.tanar.data.Repository;
 import org.tanar.ui.registration.Registration;
 import org.tanar.utils.Utils;
