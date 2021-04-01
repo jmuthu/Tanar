@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -13,6 +15,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.tanar.R;
 import org.tanar.data.model.LoggedInUser;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -64,9 +69,7 @@ public class Repository {
                             Log.d(TAG, document.getId() + " => " + document.getData());
                             LoggedInUser data =
                                     new LoggedInUser(document.getId()
-                                            , document.get("firstName").toString()
-                                            + " " + document.get("lastName").toString()
-                                    );
+                                            , document.get("name").toString());
                             loginResult.setValue(new LoginResult(data.getDisplayName()));
                             setLoggedInUser(data);
                         }
@@ -78,5 +81,41 @@ public class Repository {
 
     }
 
+    public void createUser(String name,
+                           Boolean isTutor,
+                           String email,
+                           String classNumber,
+                           String username,
+                           String password,
+                           Double latitude,
+                           Double longitude,
+                           MutableLiveData<CreateUserResult> createUserResult) {
+        Map<String, Object> user = new HashMap<>();
+        user.put("name", name);
+        user.put("email", email);
+        user.put("classNumber", classNumber);
+        user.put("username", username);
+        user.put("password", password);
+        user.put("isTutor", isTutor);
+        user.put("latitude", latitude);
+        user.put("longitude", longitude);
+
+        db.collection("Users").document(username).set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "User successfully added!");
+                        createUserResult.setValue(new CreateUserResult(name));
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error creating user", e);
+                        createUserResult.setValue(new CreateUserResult(R.string.create_user_failed));
+                    }
+
+                });
+    }
 
 }

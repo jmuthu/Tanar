@@ -13,4 +13,7 @@
     <string name="permission_rationale_location">Access to the location service is required to find the \'nearby tutors\' </string>
     <string name="location_permission_denied">This sample requires location permission to enable the \'search nearby tutors\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Tunar\'.</string>
     <string name="permission_required_toast">Please provide location permission to this application</string>
+    <string name="create_user_failed">User creation failed</string>
+    <string name="create_user_success">User successfully created</string>
+    <string name="passwords_not_matching">Passwords donot match</string>
 </resources>

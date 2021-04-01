@@ -4,31 +4,26 @@ import android.app.Activity;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Patterns;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.tanar.R;
 import org.tanar.data.LoginResult;
 import org.tanar.data.Repository;
+import org.tanar.ui.registration.Registration;
+import org.tanar.utils.Utils;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -44,16 +39,15 @@ public class LoginActivity extends AppCompatActivity {
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
         final AppCompatButton loginButton = findViewById(R.id.login);
-        AppCompatButton signup=findViewById(R.id.signup);
+        final AppCompatButton signup=findViewById(R.id.signup);
+        signup.setEnabled(true);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
-
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //GOES TO REGISTRATION CLASS
-            }
+        Intent intent = new Intent(this, Registration.class);
+        signup.setOnClickListener(v -> {
+             startActivity(intent);
         });
+
         loginResult.observe(this, loginResult -> {
             if (loginResult == null) {
                 return;
@@ -85,9 +79,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 boolean isDataValid = false;
-                if (!isUserNameValid(usernameEditText.getText().toString())) {
+                if (!Utils.isUserNameValid(usernameEditText.getText().toString())) {
                     usernameEditText.setError(getString(R.string.invalid_username));
-                } else if (!isPasswordValid(passwordEditText.getText().toString())) {
+                } else if (!Utils.isPasswordValid(passwordEditText.getText().toString())) {
                     passwordEditText.setError(getString(R.string.invalid_password));
                 } else {
                     isDataValid = true;
@@ -120,21 +114,5 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
-    }
-
-    private boolean isUserNameValid(String username) {
-        if (username == null) {
-            return false;
-        }
-        if (username.contains("@")) {
-            return Patterns.EMAIL_ADDRESS.matcher(username).matches();
-        } else {
-            return !username.trim().isEmpty();
-        }
-    }
-
-    // A placeholder password validation check
-    private boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() > 5;
     }
 }
