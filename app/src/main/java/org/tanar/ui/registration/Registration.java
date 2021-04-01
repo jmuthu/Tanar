@@ -3,7 +3,6 @@ package org.tanar.ui.registration;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,7 +20,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.tanar.R;
 import org.tanar.data.result.CreateUserResult;
@@ -32,7 +30,11 @@ import org.tanar.utils.Utils;
 public class Registration extends AppCompatActivity {
     Boolean isTutor = true;
     private Repository repository;
-    private final MutableLiveData<CreateUserResult> createUserResult = new MutableLiveData<>();
+
+    // For Asynchronous retrieval of data we need to watch the result from the db.
+    private final MutableLiveData<CreateUserResult> createUserResultMutableLiveData = new MutableLiveData<>();
+
+    // Location related variables
     private FusedLocationProviderClient fusedLocationClient;
     private Double latitude = 0.0;
     private Double longitude = 0.0;
@@ -101,16 +103,16 @@ public class Registration extends AppCompatActivity {
             }
         };
 
-        createUserResult.observe(this, loginResult -> {
-            if (loginResult == null) {
+        createUserResultMutableLiveData.observe(this, createUserResult -> {
+            if (createUserResult == null) {
                 return;
             }
             loadingProgressBar.setVisibility(View.GONE);
-            if (loginResult.getError() != null) {
-                showLoginFailed(loginResult.getError());
+            if (createUserResult.getError() != null) {
+                showLoginFailed(createUserResult.getError());
             }
-            if (loginResult.getSuccess() != null) {
-                updateUiWithUser(loginResult.getSuccess());
+            if (createUserResult.getSuccess() != null) {
+                updateUiWithUser(createUserResult.getSuccess());
             }
             setResult(Activity.RESULT_OK);
 
@@ -131,14 +133,13 @@ public class Registration extends AppCompatActivity {
                     usernameEditText.getText().toString(),
                     passwordEditText.getText().toString(),
                     latitude, longitude, altitude,
-                    createUserResult);
+                    createUserResultMutableLiveData);
 
         });
     }
 
     private void updateUiWithUser(String displayName) {
-        String welcome = getString(R.string.create_user_success);
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), getString(R.string.create_user_success), Toast.LENGTH_LONG).show();
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
@@ -155,15 +156,12 @@ public class Registration extends AppCompatActivity {
         }
 
         fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                            altitude = location.getAltitude();
-                        }
+                .addOnSuccessListener(this, location -> {
+                    // Got last known location. In some rare situations this can be null.
+                    if (location != null) {
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
+                        altitude = location.getAltitude();
                     }
                 });
     }

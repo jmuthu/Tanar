@@ -101,7 +101,7 @@ public class Repository {
                            Double latitude,
                            Double longitude,
                            Double altitude,
-                           MutableLiveData<CreateUserResult> createUserResult) {
+                           MutableLiveData<CreateUserResult> createUserResultLiveData) {
         Map<String, Object> user = new HashMap<>();
         user.put("name", name);
         user.put("email", email);
@@ -119,14 +119,14 @@ public class Repository {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "User successfully added!");
-                        createUserResult.setValue(new CreateUserResult(name));
+                        createUserResultLiveData.setValue(new CreateUserResult(name));
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error creating user", e);
-                        createUserResult.setValue(new CreateUserResult(R.string.create_user_failed));
+                        createUserResultLiveData.setValue(new CreateUserResult(R.string.create_user_failed));
                     }
 
                 });
