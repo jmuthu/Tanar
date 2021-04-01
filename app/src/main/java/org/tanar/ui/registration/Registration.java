@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.StringRes;
@@ -22,18 +25,22 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import org.tanar.R;
+import org.tanar.data.model.Subject;
 import org.tanar.data.result.CreateUserResult;
 import org.tanar.data.Repository;
+import org.tanar.data.result.SubjectResult;
 import org.tanar.utils.PermissionUtils;
 import org.tanar.utils.Utils;
 
-public class Registration extends AppCompatActivity {
+import java.util.List;
+
+public class Registration extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Boolean isTutor = true;
     private Repository repository;
 
     // For Asynchronous retrieval of data we need to watch the result from the db.
     private final MutableLiveData<CreateUserResult> createUserResultMutableLiveData = new MutableLiveData<>();
-
+    private final MutableLiveData<SubjectResult> subjectMutableLiveData = new MutableLiveData<SubjectResult>();
     // Location related variables
     private FusedLocationProviderClient fusedLocationClient;
     private Double latitude = 0.0;
@@ -51,13 +58,19 @@ public class Registration extends AppCompatActivity {
         final EditText nameEditText = findViewById(R.id.registration_name);
         final EditText usernameEditText = findViewById(R.id.registration_username);
         final EditText emailEditText = findViewById(R.id.email);
+        final EditText experienceYear=findViewById(R.id.exp_year);
+        final Spinner subjects=findViewById(R.id.spinner);
         final EditText classNumberEditText = findViewById(R.id.classNumber);
         final EditText passwordEditText = findViewById(R.id.registration_password);
         final EditText confirmPasswordEditText = findViewById(R.id.cpassword);
         final ProgressBar loadingProgressBar = findViewById(R.id.loadingRegistration);
         final AppCompatButton registerButton = findViewById(R.id.register);
-
+        subjects.setVisibility(View.INVISIBLE);
+        experienceYear.setVisibility(View.INVISIBLE);
         getLocation();
+
+        repository.getSubjects(subjectMutableLiveData);
+
 
         radioGroup.setOnCheckedChangeListener(
                 new RadioGroup
@@ -69,9 +82,11 @@ public class Registration extends AppCompatActivity {
                                                  int checkedId) {
                         isTutor = checkedId == R.id.tutor_radio_button;
                         if(isTutor) {
-                            classNumberEditText.setVisibility(View.INVISIBLE);
+                            subjects.setVisibility(View.VISIBLE);
+                            experienceYear.setVisibility(View.VISIBLE);
                         } else {
-                            classNumberEditText.setVisibility(View.VISIBLE);
+                            subjects.setVisibility(View.INVISIBLE);
+                            experienceYear.setVisibility(View.INVISIBLE);
                         }
                     }
                 });
@@ -120,6 +135,28 @@ public class Registration extends AppCompatActivity {
             finish();
         });
 
+
+       subjectMutableLiveData.observe(this, subjectResult -> {
+            if (subjectResult == null) {
+                return;
+            }
+            if (subjectResult.getError() != null) {
+                showLoginFailed(subjectResult.getError());
+            }
+            if (subjectResult.getSubjectList() != null) {
+                subjects.setPrompt("Select your Subject");
+                List<Subject> st=subjectResult.getSubjectList();
+                ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,st);
+                // Specify the layout to use when the list of choices appears
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Apply the adapter to the spinner
+                subjects.setAdapter(adapter);
+            }
+
+        });
+
+
+
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         confirmPasswordEditText.addTextChangedListener(afterTextChangedListener);
@@ -165,4 +202,13 @@ public class Registration extends AppCompatActivity {
                     }
                 });
     }
+
+    public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
+        Toast.makeText(Registration.this,"Subject Selected" , Toast.LENGTH_LONG).show();
+    }
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
+        // TODO Auto-generated method stub
+    }
+
 }

@@ -1,19 +1,24 @@
 package org.tanar.data.model;
 
 public class Subject {
-    private String Id;
-    private String Name;
+    private String id;
+    private String name;
 
     public String getId() {
-        return Id;
+        return id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public Subject(String id, String name) {
-        Id = id;
-        Name = name;
+        this.id = id;
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

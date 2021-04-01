@@ -19,6 +19,10 @@ public class SubjectResult {
         this.subjectList = subjectList;
     }
 
+    public List<Subject> getSubjectList() {
+        return subjectList;
+    }
+
     @Nullable
     public Integer getError() {
         return error;
