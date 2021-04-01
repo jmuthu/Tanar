@@ -35,11 +35,31 @@
         app:srcCompat="@drawable/logo" />
 
     <EditText
-        android:id="@+id/name"
+        android:id="@+id/registration_username"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="272dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="#857C7C"
+        android:hint="Enter an username"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textColorHint="#888991"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/registration_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="320dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="#857C7C"
         android:hint="Enter Your Name"
@@ -55,11 +75,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/uname"
+        android:id="@+id/email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="296dp"
+        android:layout_marginTop="372dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="#857C7C"
         android:hint="Enter Your Email Id"
@@ -75,11 +95,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/sclass"
+        android:id="@+id/classNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="356dp"
+        android:layout_marginTop="528dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="#857C7C"
         android:hint="Enter Your Class (eg:3)"
@@ -95,11 +115,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/registration_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="412dp"
+        android:layout_marginTop="424dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="#857C7C"
         android:hint="Create Password"
@@ -135,9 +155,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/login"
-        android:layout_width="149dp"
-        android:layout_height="45dp"
+        android:id="@+id/register"
+        android:layout_width="147dp"
+        android:layout_height="51dp"
         android:layout_gravity="start"
         android:layout_marginStart="48dp"
         android:layout_marginTop="16dp"
@@ -150,8 +170,52 @@
         android:textSize="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.434"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.535" />
+        app:layout_constraintTop_toBottomOf="@+id/registration_password"
+        app:layout_constraintVertical_bias="0.93" />
+
+    <ProgressBar
+        android:id="@+id/loadingRegistration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="64dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cpassword"
+        app:layout_constraintStart_toStartOf="@+id/cpassword"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <RadioGroup
+        android:id="@+id/user_type"
+        android:layout_width="200dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="236dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/student_radio_button"
+            android:layout_width="108dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Student" />
+
+        <RadioButton
+            android:id="@+id/tutor_radio_button"
+            android:layout_width="95dp"
+            android:layout_height="wrap_content"
+            android:text="Tutor" />
+
+    </RadioGroup>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

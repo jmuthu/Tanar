@@ -34,8 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private Repository repository;
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
-    AppCompatButton signup;
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,15 +44,14 @@ public class LoginActivity extends AppCompatActivity {
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
         final AppCompatButton loginButton = findViewById(R.id.login);
-        signup=(AppCompatButton)findViewById(R.id.signup);
+        AppCompatButton signup=findViewById(R.id.signup);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i= new Intent(LoginActivity.this, CardView.class);
-                startActivity(i);
+                //GOES TO REGISTRATION CLASS
             }
         });
         loginResult.observe(this, loginResult -> {
