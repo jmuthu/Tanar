@@ -1,4 +1,4 @@
-package org.tanar.data;
+package org.tanar.data.result;
 
 import androidx.annotation.Nullable;
 
@@ -10,11 +10,11 @@ public class TutorsNearbyResult {
     private Integer error;
     private List<Tutor> tutorList;
 
-    TutorsNearbyResult(@Nullable Integer error) {
+    public TutorsNearbyResult(@Nullable Integer error) {
         this.error = error;
     }
 
-    TutorsNearbyResult(List<Tutor> tutorList) {
+    public TutorsNearbyResult(List<Tutor> tutorList) {
         this.tutorList = tutorList;
     }
 
