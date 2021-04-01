@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.tanar.R;
@@ -40,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = findViewById(R.id.password);
         final AppCompatButton loginButton = findViewById(R.id.login);
         final AppCompatButton signup=findViewById(R.id.signup);
-        signup.setEnabled(true);
+
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
         Intent intent = new Intent(this, Registration.class);
@@ -89,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                 loginButton.setEnabled(isDataValid);
             }
         };
+
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.setOnEditorActionListener((v, actionId, event) -> {

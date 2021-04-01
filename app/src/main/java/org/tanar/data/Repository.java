@@ -15,8 +15,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.tanar.R;
 import org.tanar.data.model.LoggedInUser;
+import org.tanar.data.model.Tutor;
+import org.tanar.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,8 +72,12 @@ public class Repository {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Log.d(TAG, document.getId() + " => " + document.getData());
                             LoggedInUser data =
-                                    new LoggedInUser(document.getId()
-                                            , document.get("name").toString());
+                                    new LoggedInUser(document.getId(),
+                                            document.get("name").toString(),
+                                            document.getBoolean("isTutor"),
+                                            document.getDouble("latitude"),
+                                            document.getDouble("longitude"),
+                                            document.getDouble("altitude"));
                             loginResult.setValue(new LoginResult(data.getDisplayName()));
                             setLoggedInUser(data);
                         }
@@ -89,6 +97,7 @@ public class Repository {
                            String password,
                            Double latitude,
                            Double longitude,
+                           Double altitude,
                            MutableLiveData<CreateUserResult> createUserResult) {
         Map<String, Object> user = new HashMap<>();
         user.put("name", name);
@@ -99,6 +108,8 @@ public class Repository {
         user.put("isTutor", isTutor);
         user.put("latitude", latitude);
         user.put("longitude", longitude);
+        user.put("altitude", altitude);
+        user.put("rating", 0.0);
 
         db.collection("Users").document(username).set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -118,4 +129,25 @@ public class Repository {
                 });
     }
 
+    public void getTutorsNearby(MutableLiveData<TutorsNearbyResult> tutorsNearbyResult) {
+        db.collection("Users").whereEqualTo("isTutor", true).get()
+                .addOnCompleteListener(task -> {
+            if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                List<Tutor> tutorList = new ArrayList<Tutor>();
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Log.d(TAG, document.getId() + " => " + document.getData());
+                    Double distance = Utils.distance(user.getLatitude(), document.getDouble("latitude"),
+                            user.getLongitude(), document.getDouble("longitude"),
+                            user.getAltitude(), document.getDouble("altitude"));
+                    Tutor tutor = new Tutor(document.getString("name"), null, document.getDouble("rating"), distance );
+                    tutorList.add(tutor);
+                }
+                tutorsNearbyResult.setValue(new TutorsNearbyResult(tutorList));
+            } else {
+                Log.w(TAG, "Error getting documents.", task.getException());
+                tutorsNearbyResult.setValue(new TutorsNearbyResult(R.string.login_failed));
+            }
+        });
+
+    }
 }

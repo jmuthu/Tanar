@@ -39,10 +39,30 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="272dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="#857C7C"
         android:hint="Enter an username"
+        android:inputType="text"
+        android:selectAllOnFocus="true"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textColorHint="#888991"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/registration_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="320dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="#857C7C"
+        android:hint="Enter Your Name"
         android:inputType="text"
         android:selectAllOnFocus="true"
         android:textAlignment="center"
@@ -55,31 +75,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/registration_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="344dp"
-        android:layout_marginEnd="24dp"
-        android:backgroundTint="#857C7C"
-        android:hint="Enter Your Name"
-        android:inputType="text"
-        android:selectAllOnFocus="true"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textColorHint="#888991"
-        android:textSize="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
         android:id="@+id/email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="372dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="#857C7C"
         android:hint="Enter Your Email Id"
@@ -90,7 +90,7 @@
         android:textColorHint="#888991"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,7 +99,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="460dp"
+        android:layout_marginTop="528dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="#857C7C"
         android:hint="Enter Your Class (eg:3)"
@@ -110,7 +110,7 @@
         android:textColorHint="#888991"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -119,7 +119,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="516dp"
+        android:layout_marginTop="424dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="#857C7C"
         android:hint="Create Password"
@@ -130,7 +130,7 @@
         android:textColorHint="#888991"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -139,7 +139,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="580dp"
+        android:layout_marginTop="476dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="#857C7C"
         android:hint="Confirm Your Password"
@@ -150,14 +150,14 @@
         android:textColorHint="#888991"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/register"
-        android:layout_width="145dp"
-        android:layout_height="28dp"
+        android:layout_width="147dp"
+        android:layout_height="51dp"
         android:layout_gravity="start"
         android:layout_marginStart="48dp"
         android:layout_marginTop="16dp"
@@ -170,10 +170,10 @@
         android:textSize="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.441"
+        app:layout_constraintHorizontal_bias="0.434"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registration_password"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.93" />
 
     <ProgressBar
         android:id="@+id/loadingRegistration"
@@ -192,6 +192,7 @@
         app:layout_constraintVertical_bias="0.3" />
 
     <RadioGroup
+        android:id="@+id/user_type"
         android:layout_width="200dp"
         android:layout_height="29dp"
         android:layout_marginTop="236dp"
@@ -202,18 +203,18 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-            android:id="@+id/tutor_radio_button"
-            android:layout_width="wrap_content"
+            android:id="@+id/student_radio_button"
+            android:layout_width="108dp"
             android:layout_height="wrap_content"
-            android:onClick="onUserTypeClicked"
-            android:text="Tutor" />
+            android:checked="true"
+            android:text="Student" />
 
         <RadioButton
-            android:id="@+id/student_radio_button"
-            android:layout_width="wrap_content"
+            android:id="@+id/tutor_radio_button"
+            android:layout_width="95dp"
             android:layout_height="wrap_content"
-            android:onClick="onUserTypeClicked"
-            android:text="Student" />
+            android:text="Tutor" />
+
     </RadioGroup>
 
 
