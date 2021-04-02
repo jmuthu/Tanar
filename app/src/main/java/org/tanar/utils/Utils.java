@@ -25,7 +25,7 @@ public class Utils {
      * difference pass 0.0. Uses Haversine method as its base.
      * lat1, lon1 Start point lat2, lon2 End point el1 Start altitude in meters
      * el2 End altitude in meters
-     * @returns Distance in Meters
+     * @returns Distance in Km
      */
     public static double distance(double lat1, double lat2, double lon1,
                                   double lon2, double el1, double el2) {
@@ -44,7 +44,7 @@ public class Utils {
 
         distance = Math.pow(distance, 2) + Math.pow(height, 2);
 
-        return Math.sqrt(distance);
+        return Math.sqrt(distance)/1000;
     }
 }
 

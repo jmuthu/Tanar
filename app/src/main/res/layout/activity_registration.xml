@@ -174,7 +174,7 @@
         android:background="@drawable/buttonstates"
         android:enabled="false"
         android:text="REGISTER"
-        android:textColor="#475EDC"
+        android:textColor="#FFFF"
         android:textSize="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

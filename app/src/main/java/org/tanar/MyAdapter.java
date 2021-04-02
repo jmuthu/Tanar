@@ -1,9 +1,12 @@
 package org.tanar;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,10 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.tanar.data.model.Tutor;
+import org.w3c.dom.Text;
 
 import java.util.List;
 
 public class MyAdapter extends ArrayAdapter<Tutor> {
+
 
     // constructor for our list view adapter.
     public MyAdapter(@NonNull Context context, List<Tutor> tutorList) {
@@ -42,6 +47,7 @@ public class MyAdapter extends ArrayAdapter<Tutor> {
         TextView name=listitemView.findViewById(R.id.idName);
         TextView tutClass=listitemView.findViewById(R.id.idClass);
         TextView expYr=listitemView.findViewById(R.id.idExpYr);
+        TextView distance=listitemView.findViewById(R.id.idDistance);
 
         // after initializing our items we are
         // setting data to our view.
@@ -50,6 +56,9 @@ public class MyAdapter extends ArrayAdapter<Tutor> {
         subject.setText(tutor.getSubjectList());
         tutClass.setText(tutor.getTutClass());
         expYr.setText(tutor.getExpyear());
+        String dist = String.format("%.2f",tutor.getDistance());
+        distance.setText(dist);
+
 
         // below line is use to add item click listener
         // for our item of list view.
@@ -58,8 +67,30 @@ public class MyAdapter extends ArrayAdapter<Tutor> {
             public void onClick(View v) {
                 // on the item click on our list view.
                 // we are displaying a toast message.
-                Toast.makeText(getContext(), "Item clicked is : " + tutor.getName(), Toast.LENGTH_SHORT).show();
-            }
+
+                LayoutInflater layoutInflaterAndroid = LayoutInflater.from(v.getContext());
+                View mView = layoutInflaterAndroid.inflate(R.layout.appointmentbooking, null);
+                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(v.getContext());
+                alertDialogBuilderUserInput.setView(mView);
+
+                final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.userInputDialog);
+                alertDialogBuilderUserInput
+                        .setCancelable(false)
+                        .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                // ToDo get user input here
+                            }
+                        })
+
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialogBox, int id) {
+                                        dialogBox.cancel();
+                                    }
+                                });
+
+                AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+                alertDialogAndroid.show();            }
         });
         return listitemView;
     }
