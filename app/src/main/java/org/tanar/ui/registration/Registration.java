@@ -41,6 +41,7 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
     // For Asynchronous retrieval of data we need to watch the result from the db.
     private final MutableLiveData<CreateUserResult> createUserResultMutableLiveData = new MutableLiveData<>();
     private final MutableLiveData<SubjectResult> subjectMutableLiveData = new MutableLiveData<SubjectResult>();
+
     // Location related variables
     private FusedLocationProviderClient fusedLocationClient;
     private Double latitude = 0.0;
@@ -56,10 +57,10 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
 
         final RadioGroup radioGroup = findViewById(R.id.user_type);
         final EditText nameEditText = findViewById(R.id.registration_name);
-        final EditText usernameEditText = findViewById(R.id.registration_username);
+        final EditText phonenumber = findViewById(R.id.phoneno);
         final EditText emailEditText = findViewById(R.id.email);
         final EditText experienceYear=findViewById(R.id.exp_year);
-        final Spinner subjects=findViewById(R.id.spinner);
+        final Spinner  subjects=findViewById(R.id.spinner);
         final EditText classNumberEditText = findViewById(R.id.classNumber);
         final EditText passwordEditText = findViewById(R.id.registration_password);
         final EditText confirmPasswordEditText = findViewById(R.id.cpassword);
@@ -106,14 +107,14 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void afterTextChanged(Editable s) {
                 boolean isDataValid = false;
-                if (!Utils.isUserNameValid(usernameEditText.getText().toString())) {
-                    usernameEditText.setError(getString(R.string.invalid_username));
-                } else if (!Utils.isPasswordValid(passwordEditText.getText().toString())) {
+                if (!Utils.isPasswordValid(passwordEditText.getText().toString())) {
                     passwordEditText.setError(getString(R.string.invalid_password));
                 } else if (!passwordEditText.getText().toString().equals(confirmPasswordEditText.getText().toString())) {
                     confirmPasswordEditText.setError(getString(R.string.passwords_not_matching));
-                } else isDataValid = longitude != 0.0 || latitude != 0.0;
-
+                } //else isDataValid = longitude != 0.0 || latitude != 0.0;
+                else{
+                    isDataValid=true;
+                }
                 registerButton.setEnabled(isDataValid);
             }
         };
@@ -157,7 +158,7 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-        usernameEditText.addTextChangedListener(afterTextChangedListener);
+        phonenumber.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         confirmPasswordEditText.addTextChangedListener(afterTextChangedListener);
 
@@ -167,7 +168,9 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
                     isTutor,
                     emailEditText.getText().toString(),
                     classNumberEditText.getText().toString(),
-                    usernameEditText.getText().toString(),
+                    phonenumber.getText().toString(),
+                    subjects.getSelectedItem().toString(),
+                    experienceYear.getText().toString(),
                     passwordEditText.getText().toString(),
                     latitude, longitude, altitude,
                     createUserResultMutableLiveData);
@@ -204,7 +207,6 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
-        Toast.makeText(Registration.this,"Subject Selected" , Toast.LENGTH_LONG).show();
     }
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {

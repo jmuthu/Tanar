@@ -22,4 +22,6 @@ public class TutorsNearbyResult {
     public Integer getError() {
         return error;
     }
+
+    public List<Tutor> getTutorList(){ return tutorList;}
 }

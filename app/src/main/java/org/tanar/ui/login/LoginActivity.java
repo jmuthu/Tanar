@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.tanar.R;
+import org.tanar.StuLandingPage;
 import org.tanar.data.result.LoginResult;
 import org.tanar.data.Repository;
 import org.tanar.ui.registration.Registration;
@@ -108,8 +109,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUiWithUser(String displayName) {
-        String welcome = getString(R.string.welcome) + displayName;
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        /**String welcome = getString(R.string.welcome) + displayName;
+        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();**/
+        Intent i=new Intent(this, StuLandingPage.class);
+        startActivity(i);
         //  startActivity(intent);
     }
 

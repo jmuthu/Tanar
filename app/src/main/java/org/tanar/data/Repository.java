@@ -21,6 +21,8 @@ import org.tanar.data.result.TutorsNearbyResult;
 import org.tanar.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,14 +33,14 @@ import java.util.Map;
  */
 public class Repository {
 
-    private static volatile Repository instance;
     private static final String TAG = "DataSource";
+    private static volatile Repository instance;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     // If user credentials will be cached in local storage, it is recommended it be encrypted
     // @see https://developer.android.com/training/articles/keystore
     private LoggedInUser user = null;
-    private Subject subject = null;
+    private final Subject subject = null;
 
     // private constructor : singleton access
     private Repository() {
@@ -66,9 +68,9 @@ public class Repository {
         // @see https://developer.android.com/training/articles/keystore
     }
 
-    public void login(String username, String password, MutableLiveData<LoginResult> loginResult) {
+    public void login(String email, String password, MutableLiveData<LoginResult> loginResult) {
 
-        db.collection("Users").whereEqualTo("username", username).whereEqualTo("password", password)
+        db.collection("Users").whereEqualTo("email", email).whereEqualTo("password", password)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
@@ -96,7 +98,9 @@ public class Repository {
                            Boolean isTutor,
                            String email,
                            String classNumber,
-                           String username,
+                           String phoneNumber,
+                           String subject,
+                           String expYear,
                            String password,
                            Double latitude,
                            Double longitude,
@@ -106,7 +110,9 @@ public class Repository {
         user.put("name", name);
         user.put("email", email);
         user.put("classNumber", classNumber);
-        user.put("username", username);
+        user.put("phoneNumber", phoneNumber);
+        user.put("subject", subject);
+        user.put("expyear", expYear);
         user.put("password", password);
         user.put("isTutor", isTutor);
         user.put("latitude", latitude);
@@ -114,7 +120,7 @@ public class Repository {
         user.put("altitude", altitude);
         user.put("rating", 0.0);
 
-        db.collection("Users").document(username).set(user)
+        db.collection("Users").document(email).set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -135,22 +141,25 @@ public class Repository {
     public void getTutorsNearby(MutableLiveData<TutorsNearbyResult> tutorsNearbyResult) {
         db.collection("Users").whereEqualTo("isTutor", true).get()
                 .addOnCompleteListener(task -> {
-            if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                List<Tutor> tutorList = new ArrayList<Tutor>();
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    Log.d(TAG, document.getId() + " => " + document.getData());
-                    Double distance = Utils.distance(user.getLatitude(), document.getDouble("latitude"),
-                            user.getLongitude(), document.getDouble("longitude"),
-                            user.getAltitude(), document.getDouble("altitude"));
-                    Tutor tutor = new Tutor(document.getString("name"), null, document.getDouble("rating"), distance );
-                    tutorList.add(tutor);
-                }
-                tutorsNearbyResult.setValue(new TutorsNearbyResult(tutorList));
-            } else {
-                Log.w(TAG, "Error getting documents.", task.getException());
-                tutorsNearbyResult.setValue(new TutorsNearbyResult(R.string.login_failed));
-            }
-        });
+                    if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                        List<Tutor> tutorList = new ArrayList<Tutor>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            Double distance = Utils.distance(user.getLatitude(), document.getDouble("latitude"),
+                                    user.getLongitude(), document.getDouble("longitude"),
+                                    user.getAltitude(), document.getDouble("altitude"));
+                            Tutor tutor = new Tutor(document.getString("name"), document.getString("email"), document.getString("phoneNumber"), document.getString("subject"), document.getString("classNumber"), document.getString("expyear"), distance);
+                            tutorList.add(tutor);
+                        }
+
+                        //Sort the Tutors by their distance
+                        Collections.sort(tutorList, (t1, t2) -> Double.compare(t1.getDistance(), t2.getDistance()));
+                        tutorsNearbyResult.setValue(new TutorsNearbyResult(tutorList));
+                    } else {
+                        Log.w(TAG, "Error getting documents.", task.getException());
+                        tutorsNearbyResult.setValue(new TutorsNearbyResult(R.string.login_failed));
+                    }
+                });
 
     }
 
