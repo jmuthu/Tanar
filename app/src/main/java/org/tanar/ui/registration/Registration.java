@@ -35,7 +35,7 @@ import org.tanar.utils.Utils;
 import java.util.List;
 
 public class Registration extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    Boolean isTutor = true;
+    Boolean isTutor = false;
     private Repository repository;
 
     // For Asynchronous retrieval of data we need to watch the result from the db.

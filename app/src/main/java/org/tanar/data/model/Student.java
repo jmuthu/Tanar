@@ -9,8 +9,10 @@ public class Student {
     private final String classNumber;
     private final Double distance;
     private String status;
+    private String message;
+    private String bookingId;
 
-    public Student(String name, String email, String phoneNumber, String subject, String classNumber, Double distance, String status) {
+    public Student(String name, String email, String phoneNumber, String subject, String classNumber, Double distance, String status, String message, String bookingId) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -18,6 +20,8 @@ public class Student {
         this.classNumber = classNumber;
         this.distance = distance;
         this.status = status;
+        this.message=message;
+        this.bookingId=bookingId;
     }
 
     public String getName() {
@@ -51,4 +55,10 @@ public class Student {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getMessage(){
+        return message;
+    }
+
+    public String getBookingId(){return bookingId;}
 }

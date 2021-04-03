@@ -19,6 +19,7 @@ import org.tanar.data.result.AppointmentResult;
 import org.tanar.data.result.BookingResult;
 import org.tanar.data.result.CreateUserResult;
 import org.tanar.data.result.LoginResult;
+import org.tanar.data.result.StatusResult;
 import org.tanar.data.result.SubjectResult;
 import org.tanar.data.result.TutorsNearbyResult;
 import org.tanar.utils.Utils;
@@ -169,6 +170,27 @@ public class Repository {
                 });
     }
 
+
+    public void updateStatus(String bookingid, int position, String status, MutableLiveData<StatusResult> statusResultMutableLiveData) {
+        db.collection("Bookings").document(bookingid)
+                .update("status", status).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                statusResultMutableLiveData.setValue(new StatusResult(status, position));
+                Log.d(TAG, "DocumentSnapshot successfully updated!");
+
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error getting documents.", e);
+                        statusResultMutableLiveData.setValue(new StatusResult(R.string.status_update_fail));
+                    }
+                });
+    }
+
+
     public void getTutorsNearby(MutableLiveData<TutorsNearbyResult> tutorsNearbyResultMutableLiveData) {
         db.collection("Users").whereEqualTo("isTutor", true).get()
                 .addOnCompleteListener(task -> {
@@ -196,13 +218,15 @@ public class Repository {
                         //Sort the Tutors by their distance
                         Collections.sort(tutorList, (t1, t2) -> Double.compare(t1.getDistance(), t2.getDistance()));
                         db.collection("Bookings").whereEqualTo("studentId", user.getUserId()).get().addOnCompleteListener(bookingTask -> {
-                                    if (bookingTask.isSuccessful() && !bookingTask.getResult().isEmpty()) {
-                                        for (QueryDocumentSnapshot document : bookingTask.getResult()) {
-                                            for (Tutor tutor : tutorList) {
-                                                if (tutor.getEmail().equals(document.getString("tutorId"))) {
-                                                    tutor.setStatus(document.getString("status"));
-                                                }
+                                    if (bookingTask.isSuccessful()) {
+                                        if (!bookingTask.getResult().isEmpty()) {
+                                            for (QueryDocumentSnapshot document : bookingTask.getResult()) {
+                                                for (Tutor tutor : tutorList) {
+                                                    if (tutor.getEmail().equals(document.getString("tutorId"))) {
+                                                        tutor.setStatus(document.getString("status"));
+                                                    }
 
+                                                }
                                             }
                                         }
                                         tutorsNearbyResultMutableLiveData.setValue(new TutorsNearbyResult(tutorList));
@@ -224,38 +248,43 @@ public class Repository {
     public void getStudents(MutableLiveData<AppointmentResult> appointmentResultMutableLiveDataResult) {
         db.collection("Bookings").whereEqualTo("tutorId", user.getUserId()).get().
                 addOnCompleteListener(bookingTask -> {
-                            if (bookingTask.isSuccessful() && !bookingTask.getResult().isEmpty()) {
-                                List<Student> studentList = new ArrayList<Student>();
-                                db.collection("Users").whereEqualTo("isTutor", false).get()
-                                        .addOnCompleteListener(task -> {
-                                            if (task.isSuccessful() && !task.getResult().isEmpty()) {
-                                                for (QueryDocumentSnapshot bookingDoc : bookingTask.getResult()) {
-                                                    for (QueryDocumentSnapshot studentDoc : task.getResult()) {
-                                                        if (bookingDoc.getString("studentId").equals(studentDoc.getId())) {
-                                                            Double distance = Utils.distance(user.getLatitude(),
-                                                                    studentDoc.getDouble("latitude"),
-                                                                    user.getLongitude(),
-                                                                    studentDoc.getDouble("longitude"),
-                                                                    user.getAltitude(),
-                                                                    studentDoc.getDouble("altitude"));
-                                                            Student student = new Student(studentDoc.getString("name"),
-                                                                    studentDoc.getString("email"),
-                                                                    studentDoc.getString("phoneNumber"),
-                                                                    studentDoc.getString("subject"),
-                                                                    studentDoc.getString("classNumber"),
-                                                                    distance,
-                                                                    bookingDoc.getString("status"));
-                                                            studentList.add(student);
-                                                            break;
+                            if (bookingTask.isSuccessful()) {
+                                if (!bookingTask.getResult().isEmpty()) {
+                                    List<Student> studentList = new ArrayList<Student>();
+                                    db.collection("Users").whereEqualTo("isTutor", false).get()
+                                            .addOnCompleteListener(task -> {
+                                                if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                                                    for (QueryDocumentSnapshot bookingDoc : bookingTask.getResult()) {
+                                                        for (QueryDocumentSnapshot studentDoc : task.getResult()) {
+                                                            if (bookingDoc.getString("studentId").equals(studentDoc.getId())) {
+                                                                Double distance = Utils.distance(user.getLatitude(),
+                                                                        studentDoc.getDouble("latitude"),
+                                                                        user.getLongitude(),
+                                                                        studentDoc.getDouble("longitude"),
+                                                                        user.getAltitude(),
+                                                                        studentDoc.getDouble("altitude"));
+                                                                Student student = new Student(studentDoc.getString("name"),
+                                                                        studentDoc.getString("email"),
+                                                                        studentDoc.getString("phoneNumber"),
+                                                                        studentDoc.getString("subject"),
+                                                                        studentDoc.getString("classNumber"),
+                                                                        distance,
+                                                                        bookingDoc.getString("status"),
+                                                                        bookingDoc.getString("studentMessage"),
+                                                                        bookingDoc.getId());
+                                                                studentList.add(student);
+                                                                break;
+                                                            }
                                                         }
                                                     }
+
+                                                    appointmentResultMutableLiveDataResult.setValue(new AppointmentResult(studentList));
+                                                } else {
+                                                    Log.w(TAG, "Error getting documents.", task.getException());
+                                                    appointmentResultMutableLiveDataResult.setValue(new AppointmentResult(R.string.get_appointments_failed));
                                                 }
-                                                appointmentResultMutableLiveDataResult.setValue(new AppointmentResult(studentList));
-                                            } else {
-                                                Log.w(TAG, "Error getting documents.", task.getException());
-                                                appointmentResultMutableLiveDataResult.setValue(new AppointmentResult(R.string.get_appointments_failed));
-                                            }
-                                        });
+                                            });
+                                }
                             } else {
                                 Log.w(TAG, "Error getting documents.", bookingTask.getException());
                                 appointmentResultMutableLiveDataResult.setValue(new AppointmentResult(R.string.get_appointments_failed));

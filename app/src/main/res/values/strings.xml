@@ -19,4 +19,5 @@
     <string name="booking_failed">Your Booking was failed.</string>
     <string name="get_tutor_failed">Unable to retrieve Tutor.</string>
     <string name="get_appointments_failed">Unable to retrieve appointments.</string>
+    <string name="status_update_fail">Status Update Failed.</string>
 </resources>

@@ -10,5 +10,7 @@ public class StuSetting extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stu_setting);
+
+
     }
 }

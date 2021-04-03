@@ -102,7 +102,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/login"
+        android:id="@+id/update"
         android:layout_width="149dp"
         android:layout_height="45dp"
         android:layout_gravity="start"

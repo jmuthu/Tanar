@@ -16,11 +16,11 @@ import org.tanar.data.model.Tutor;
 
 import java.util.List;
 
-public class MyAdapter extends ArrayAdapter<Tutor> {
+public class TutorsAdapter extends ArrayAdapter<Tutor> {
 
 
     // constructor for our list view adapter.
-    public MyAdapter(@NonNull Context context, List<Tutor> tutorList) {
+    public TutorsAdapter(@NonNull Context context, List<Tutor> tutorList) {
         super(context, 0, tutorList);
     }
 

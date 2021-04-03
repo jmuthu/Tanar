@@ -1,33 +1,23 @@
 package org.tanar;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import org.tanar.data.Repository;
-import org.tanar.data.model.Subject;
 import org.tanar.data.model.Tutor;
 import org.tanar.data.result.BookingResult;
-import org.tanar.data.result.CreateUserResult;
 import org.tanar.data.result.TutorsNearbyResult;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class StuLandingPage extends AppCompatActivity {
 
@@ -36,7 +26,7 @@ public class StuLandingPage extends AppCompatActivity {
     private final MutableLiveData<TutorsNearbyResult> tutorNearbyResultMLD = new MutableLiveData<>();
     private final MutableLiveData<BookingResult> bookingResultMutableLiveData = new MutableLiveData<>();
     private Repository repository;
-    private MyAdapter adapter;
+    private TutorsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +47,7 @@ public class StuLandingPage extends AppCompatActivity {
                 Toast.makeText(this, "Failed to fetch from Database.", Toast.LENGTH_LONG).show();
             }
             if (tutorNearbyResult.getTutorList() != null) {
-                adapter = new MyAdapter(this, tutorNearbyResult.getTutorList());
+                adapter = new TutorsAdapter(this, tutorNearbyResult.getTutorList());
 
                 // after passing this array list to our adapter
                 // class we are setting our adapter to our list view.
