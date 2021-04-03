@@ -1,10 +1,13 @@
 package org.tanar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.MutableLiveData;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +41,7 @@ public class Bookings extends AppCompatActivity {
 
         repository = Repository.getInstance();
         repository.getStudents(appointmentResultMutableLiveData);
-
+        ImageView settings=(ImageView) findViewById(R.id.left_icon2);
 
         students = findViewById(R.id.studentRequests);
 
@@ -110,6 +113,13 @@ public class Bookings extends AppCompatActivity {
             }
         });
 
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(Bookings.this, TutorSetting.class);
+                startActivity(i);
+            }
+        });
 
     }
 }

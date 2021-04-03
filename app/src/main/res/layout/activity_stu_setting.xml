@@ -21,52 +21,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.417" />
 
-    <EditText
-        android:id="@+id/name"
+    <TextView
+        android:id="@+id/stude"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="344dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="#857C7C"
-        android:hint="Name"
-        android:inputType="text"
+        android:hint="Student Name"
         android:selectAllOnFocus="true"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textColorHint="#888991"
-        android:textSize="15dp"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/sclass"
+        android:id="@+id/stuPass"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="404dp"
-        android:layout_marginEnd="24dp"
-        android:backgroundTint="#857C7C"
-        android:hint="Class Enrolled"
-        android:inputType="number"
-        android:selectAllOnFocus="true"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textColorHint="#888991"
-        android:textSize="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="468dp"
+        android:layout_marginTop="392dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="#857C7C"
         android:hint="Password"
@@ -82,11 +61,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/cpassword"
+        android:id="@+id/studentcpass"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="528dp"
+        android:layout_marginTop="448dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="#857C7C"
         android:hint="Confirm Your Password"
@@ -102,14 +81,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/update"
+        android:id="@+id/stuUpdate"
         android:layout_width="149dp"
         android:layout_height="45dp"
         android:layout_gravity="start"
         android:layout_marginStart="48dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="48dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="140dp"
         android:background="@drawable/button2"
         android:enabled="false"
         android:text="UPDATE"
@@ -119,6 +98,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.947" />
+        app:layout_constraintVertical_bias="0.549" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

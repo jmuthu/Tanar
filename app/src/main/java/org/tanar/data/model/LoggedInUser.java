@@ -9,16 +9,20 @@ public class LoggedInUser {
     private String displayName;
     private Boolean isTutor;
     private Double latitude;
+
+
+    private String classNumber;
     private Double longitude;
     private Double altitude;
 
-    public LoggedInUser(String userId, String displayName, Boolean isTutor, Double latitude, Double longitude, Double altitude) {
+    public LoggedInUser(String userId, String displayName, Boolean isTutor, Double latitude, Double longitude, Double altitude, String classNumber) {
         this.userId = userId;
         this.displayName = displayName;
         this.isTutor = isTutor;
         this.latitude = latitude;
         this.longitude = longitude;
         this.altitude = altitude;
+        this.classNumber=classNumber;
     }
 
     public String getUserId() {
@@ -44,4 +48,9 @@ public class LoggedInUser {
     public Boolean isTutor() {
         return isTutor;
     }
+
+    public String getClassNumber() {
+        return classNumber;
+    }
+
 }

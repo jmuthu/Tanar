@@ -19,6 +19,7 @@ import org.tanar.data.result.AppointmentResult;
 import org.tanar.data.result.BookingResult;
 import org.tanar.data.result.CreateUserResult;
 import org.tanar.data.result.LoginResult;
+import org.tanar.data.result.PasswordResult;
 import org.tanar.data.result.StatusResult;
 import org.tanar.data.result.SubjectResult;
 import org.tanar.data.result.TutorsNearbyResult;
@@ -74,6 +75,13 @@ public class Repository {
         // @see https://developer.android.com/training/articles/keystore
     }
 
+    public String getUserId(){
+        return user.getUserId();
+    }
+    public String getUsername(){
+        return user.getDisplayName();
+    }
+
     public void login(String email, String password, MutableLiveData<LoginResult> loginResultMutableLiveData) {
 
         db.collection("Users").whereEqualTo("email", email).whereEqualTo("password", password)
@@ -88,7 +96,8 @@ public class Repository {
                                             document.getBoolean("isTutor"),
                                             document.getDouble("latitude"),
                                             document.getDouble("longitude"),
-                                            document.getDouble("altitude"));
+                                            document.getDouble("altitude"),
+                                            document.getString("classNumber"));
                             setLoggedInUser(data);
                             loginResultMutableLiveData.setValue(new LoginResult(data.getDisplayName()));
                         }
@@ -192,7 +201,7 @@ public class Repository {
 
 
     public void getTutorsNearby(MutableLiveData<TutorsNearbyResult> tutorsNearbyResultMutableLiveData) {
-        db.collection("Users").whereEqualTo("isTutor", true).get()
+        db.collection("Users").whereEqualTo("isTutor", true).whereEqualTo("classNumber",user.getClassNumber()).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
                         List<Tutor> tutorList = new ArrayList<Tutor>();
@@ -243,6 +252,26 @@ public class Repository {
                     }
                 });
 
+    }
+
+    public void updateUser(String password, MutableLiveData<PasswordResult> passwordResultMutableLiveData){
+
+        db.collection("Users").document(user.getUserId())
+                .update("password", password).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                passwordResultMutableLiveData.setValue(new PasswordResult( ));
+                Log.d(TAG, "DocumentSnapshot successfully updated!");
+
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error getting documents.", e);
+                        passwordResultMutableLiveData.setValue(new PasswordResult(R.string.status_update_fail));
+                    }
+                });
     }
 
     public void getStudents(MutableLiveData<AppointmentResult> appointmentResultMutableLiveDataResult) {

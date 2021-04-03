@@ -25,8 +25,8 @@
             android:layout_height="51dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="27dp"
-            android:layout_marginBottom="88dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="104dp"
             app:srcCompat="@drawable/notif" />
 
         <TextView
@@ -46,18 +46,17 @@
 
         <TextView
             android:id="@+id/studentPhoneNumber"
-            android:layout_width="114dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="47dp"
-            android:layout_marginEnd="215dp"
+            android:layout_marginEnd="226dp"
             android:padding="3dp"
             android:text="7358522720"
             android:textAlignment="textStart"
-            android:textColor="#727FCA"
-            android:textSize="17dp"
-            android:textStyle="bold" />
+            android:textColor="#070707"
+            android:textSize="17dp" />
 
         <TextView
             android:id="@+id/studentDistance"
@@ -69,13 +68,12 @@
             android:padding="3dp"
             android:text="Distance"
             android:textAlignment="textStart"
-            android:textColor="#BF0D4A"
-            android:textSize="17dp"
-            android:textStyle="bold" />
+            android:textColor="#1B191A"
+            android:textSize="17dp" />
 
         <TextView
             android:id="@+id/studentEmailid"
-            android:layout_width="133dp"
+            android:layout_width="158dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -86,9 +84,8 @@
             android:padding="3dp"
             android:text="Student Email id"
             android:textAlignment="textStart"
-            android:textColor="#656467"
-            android:textSize="15dp"
-            android:textStyle="bold" />
+            android:textColor="#020202"
+            android:textSize="15dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -99,7 +96,7 @@
             android:padding="3dp"
             android:text="Contact:"
             android:textAlignment="textStart"
-            android:textColor="@color/black"
+            android:textColor="#662DAC"
             android:textSize="15dp"
             android:textStyle="bold" />
 
@@ -112,8 +109,24 @@
             android:padding="3dp"
             android:text="Message:"
             android:textAlignment="textStart"
-            android:textColor="@color/black"
+            android:textColor="#662DAC"
             android:textSize="15dp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="47dp"
+            android:layout_marginEnd="215dp"
+            android:padding="3dp"
+            android:text="|"
+            android:textAlignment="textStart"
+            android:textColor="#662DAC"
+            android:textSize="17dp"
             android:textStyle="bold" />
 
         <TextView
@@ -129,7 +142,8 @@
             android:text="Student Message:"
             android:textAlignment="textStart"
             android:textColor="@color/black"
-            android:textSize="13dp" />
+            android:textSize="13dp"
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -140,7 +154,7 @@
             android:padding="3dp"
             android:text="Distance(in Kms):"
             android:textAlignment="textStart"
-            android:textColor="@color/black"
+            android:textColor="#662DAC"
             android:textSize="15dp"
             android:textStyle="bold" />
 

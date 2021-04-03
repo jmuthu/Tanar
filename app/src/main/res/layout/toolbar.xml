@@ -13,7 +13,9 @@
             android:layout_width="53dp"
             android:layout_height="38dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/setting" />
+            android:clickable="true"
+            android:src="@drawable/setting"
+            />
 
         <TextView
             android:layout_width="wrap_content"

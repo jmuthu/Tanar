@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ import org.tanar.data.result.TutorsNearbyResult;
 
 public class StuLandingPage extends AppCompatActivity {
 
-    ImageView settings;
+
     private ListView tutors;
     private final MutableLiveData<TutorsNearbyResult> tutorNearbyResultMLD = new MutableLiveData<>();
     private final MutableLiveData<BookingResult> bookingResultMutableLiveData = new MutableLiveData<>();
@@ -36,7 +37,7 @@ public class StuLandingPage extends AppCompatActivity {
         repository = Repository.getInstance();
         repository.getTutorsNearby(tutorNearbyResultMLD);
 
-        settings=(ImageView) findViewById(R.id.left_icon);
+        ImageView settings=(ImageView) findViewById(R.id.left_icon);
         tutors = findViewById(R.id.tutorPeople);
 
         tutorNearbyResultMLD.observe(this, tutorNearbyResult -> {
@@ -113,7 +114,8 @@ public class StuLandingPage extends AppCompatActivity {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //STUDENT DETAILS SETTINGS
+                Intent i=new Intent(StuLandingPage.this, StuSetting.class);
+                startActivity(i);
             }
         });
 

@@ -21,72 +21,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.417" />
 
-    <EditText
-        android:id="@+id/name"
+    <TextView
+        android:id="@+id/tutName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="344dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="#857C7C"
-        android:hint="Student Name"
-        android:inputType="text"
+        android:hint="Teacher Name"
         android:selectAllOnFocus="true"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textColorHint="#888991"
-        android:textSize="15dp"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/sclass"
+        android:id="@+id/tutcpassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="400dp"
-        android:layout_marginEnd="24dp"
-        android:backgroundTint="#857C7C"
-        android:hint="Class Taken"
-        android:inputType="number"
-        android:selectAllOnFocus="true"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textColorHint="#888991"
-        android:textSize="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="452dp"
-        android:layout_marginEnd="24dp"
-        android:backgroundTint="#857C7C"
-        android:hint="Subjects Taught"
-        android:inputType="textPassword"
-        android:selectAllOnFocus="true"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textColorHint="#888991"
-        android:textSize="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/cpassword"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="500dp"
+        android:layout_marginTop="460dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="#857C7C"
         android:hint="Change Password"
@@ -101,14 +60,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/tutpassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="396dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="#857C7C"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:selectAllOnFocus="true"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textColorHint="#888991"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/login"
+        android:id="@+id/tutorUpdate"
         android:layout_width="149dp"
         android:layout_height="45dp"
         android:layout_gravity="start"
         android:layout_marginStart="48dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="48dp"
+        android:layout_marginBottom="160dp"
         android:background="@drawable/button2"
         android:enabled="false"
         android:text="UPDATE"
@@ -119,7 +99,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
         app:layout_constraintVertical_bias="0.751" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

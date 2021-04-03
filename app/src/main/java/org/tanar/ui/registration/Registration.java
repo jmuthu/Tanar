@@ -83,6 +83,7 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
                                                  int checkedId) {
                         isTutor = checkedId == R.id.tutor_radio_button;
                         if(isTutor) {
+                            isTutor=true;
                             subjects.setVisibility(View.VISIBLE);
                             experienceYear.setVisibility(View.VISIBLE);
                         } else {
@@ -111,7 +112,10 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
                     passwordEditText.setError(getString(R.string.invalid_password));
                 } else if (!passwordEditText.getText().toString().equals(confirmPasswordEditText.getText().toString())) {
                     confirmPasswordEditText.setError(getString(R.string.passwords_not_matching));
-                } //else isDataValid = longitude != 0.0 || latitude != 0.0;
+                }
+                else if (phonenumber.getText().toString().trim().length() < 10){
+                    phonenumber.setError("Enter a valid phone number");}
+                    //else isDataValid = longitude != 0.0 || latitude != 0.0;
                 else{
                     isDataValid=true;
                 }
