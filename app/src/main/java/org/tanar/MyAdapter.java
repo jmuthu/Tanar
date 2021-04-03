@@ -116,7 +116,9 @@ public class MyAdapter extends ArrayAdapter<Tutor> {
                 // on the item click on our list view.
                 //tutor.getEmail()
                 //student email : loggedIn
-
+                if(!tutor.getStatus().equals("Add")){
+                    return ;
+                }
 
                 LayoutInflater layoutInflaterAndroid = LayoutInflater.from(v.getContext());
                 View mView = layoutInflaterAndroid.inflate(R.layout.appointmentbooking, null);
@@ -142,8 +144,10 @@ public class MyAdapter extends ArrayAdapter<Tutor> {
                                 });
 
                 AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
-                alertDialogAndroid.show();            }
+                alertDialogAndroid.show();
+                }
         });
+
         return listitemView;
     }
 }
