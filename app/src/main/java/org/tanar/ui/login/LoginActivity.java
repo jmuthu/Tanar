@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import org.tanar.Bookings;
 import org.tanar.R;
 import org.tanar.StuLandingPage;
 import org.tanar.data.result.LoginResult;
@@ -109,11 +110,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUiWithUser(String displayName) {
-        /**String welcome = getString(R.string.welcome) + displayName;
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();**/
-        Intent i=new Intent(this, StuLandingPage.class);
+        Intent i=new Intent(this, repository.isTutor()? Bookings.class:StuLandingPage.class);
         startActivity(i);
-        //  startActivity(intent);
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {

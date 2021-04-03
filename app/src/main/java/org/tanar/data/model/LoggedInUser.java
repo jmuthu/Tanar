@@ -41,4 +41,7 @@ public class LoggedInUser {
         return altitude;
     }
 
+    public Boolean isTutor() {
+        return isTutor;
+    }
 }
