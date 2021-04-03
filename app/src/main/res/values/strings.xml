@@ -16,4 +16,6 @@
     <string name="create_user_failed">User creation failed</string>
     <string name="create_user_success">User successfully created</string>
     <string name="passwords_not_matching">Passwords donot match</string>
+    <string name="booking_failed">Your Booking was failed.</string>
+    <string name="get_tutor_failed">Unable to retrieve Tutor.</string>
 </resources>

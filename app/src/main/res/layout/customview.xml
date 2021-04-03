@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.058"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/user"
+        app:srcCompat="@drawable/tutor"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="16dp" />
 

@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="160dp"
-    android:layout_margin="4dp"
-    android:padding="2dp"
+
     android:background="@color/white"
     app:cardElevation="3dp">
 
@@ -19,19 +18,26 @@
 
         <!--Text view for displaying our text -->
 
+
         <ImageView
             android:id="@+id/idIVimage"
-            android:layout_width="91dp"
-            android:layout_height="113dp"
+            android:layout_width="97dp"
+            android:layout_height="119dp"
+            android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="19dp"
-            android:background="@color/white"
-            android:backgroundTint="@color/white"
-            android:padding="3dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginBottom="30dp"
             app:srcCompat="@drawable/tutor" />
+
+        <ImageView
+            android:layout_width="41dp"
+            android:id="@+id/idStatus"
+            android:layout_height="51dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="292dp"
+            android:layout_marginBottom="20dp"
+            app:srcCompat="@drawable/add" />
 
         <TextView
             android:id="@+id/idName"
@@ -54,8 +60,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="80dp"
-            android:layout_marginTop="55dp"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="48dp"
             android:layout_toEndOf="@id/idIVimage"
             android:padding="3dp"
             android:text="12"
@@ -69,8 +75,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="163dp"
-            android:layout_marginTop="122dp"
+            android:layout_marginStart="156dp"
+            android:layout_marginTop="103dp"
             android:layout_toEndOf="@id/idIVimage"
             android:padding="3dp"
             android:text="Distance"
@@ -84,15 +90,15 @@
             android:layout_width="133dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="148dp"
-            android:layout_marginTop="58dp"
+            android:layout_marginStart="126dp"
+            android:layout_marginTop="50dp"
             android:layout_toEndOf="@id/idIVimage"
             android:padding="3dp"
             android:text="Subject Text"
             android:textAlignment="textStart"
-            android:textStyle="bold"
             android:textColor="#656467"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/idExpYr"
@@ -101,8 +107,8 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="90dp"
-            android:layout_marginEnd="97dp"
+            android:layout_marginTop="78dp"
+            android:layout_marginEnd="102dp"
             android:padding="3dp"
             android:text="12"
             android:textAlignment="textStart"
@@ -114,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="56dp"
+            android:layout_marginTop="49dp"
             android:layout_toEndOf="@id/idIVimage"
             android:padding="3dp"
             android:text="Class:"
@@ -128,7 +134,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="90dp"
+            android:layout_marginTop="78dp"
             android:layout_toEndOf="@id/idIVimage"
             android:padding="3dp"
             android:text="Years of experience :"
@@ -142,7 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="123dp"
+            android:layout_marginTop="105dp"
             android:layout_toEndOf="@id/idIVimage"
             android:padding="3dp"
             android:text="Distance(in Kms):"
@@ -155,8 +161,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="121dp"
-            android:layout_marginTop="57dp"
+            android:layout_marginStart="105dp"
+            android:layout_marginTop="48dp"
             android:layout_toEndOf="@id/idIVimage"
             android:padding="3dp"
             android:text="|"

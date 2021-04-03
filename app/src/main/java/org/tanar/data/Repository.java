@@ -14,6 +14,7 @@ import org.tanar.R;
 import org.tanar.data.model.LoggedInUser;
 import org.tanar.data.model.Subject;
 import org.tanar.data.model.Tutor;
+import org.tanar.data.result.BookingResult;
 import org.tanar.data.result.CreateUserResult;
 import org.tanar.data.result.LoginResult;
 import org.tanar.data.result.SubjectResult;
@@ -22,7 +23,6 @@ import org.tanar.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,12 +35,11 @@ public class Repository {
 
     private static final String TAG = "DataSource";
     private static volatile Repository instance;
+    private final Subject subject = null;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
     // If user credentials will be cached in local storage, it is recommended it be encrypted
     // @see https://developer.android.com/training/articles/keystore
     private LoggedInUser user = null;
-    private final Subject subject = null;
 
     // private constructor : singleton access
     private Repository() {
@@ -92,6 +91,32 @@ public class Repository {
                     }
                 });
 
+    }
+
+    public void createBooking(String tutorId, String status, String message, MutableLiveData<BookingResult> bookingResultMutableLiveData) {
+
+        Map<String, Object> booking = new HashMap<>();
+        booking.put("tutorId", tutorId);
+        booking.put("studentMessage", message);
+        booking.put("status", status);
+        booking.put("studentId", user.getUserId());
+
+        db.collection("Bookings").document().set(booking)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Booking successful.");
+                        bookingResultMutableLiveData.setValue(new BookingResult());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error booking.", e);
+                        bookingResultMutableLiveData.setValue(new BookingResult(R.string.booking_failed));
+                    }
+
+                });
     }
 
     public void createUser(String name,
@@ -148,20 +173,38 @@ public class Repository {
                             Double distance = Utils.distance(user.getLatitude(), document.getDouble("latitude"),
                                     user.getLongitude(), document.getDouble("longitude"),
                                     user.getAltitude(), document.getDouble("altitude"));
-                            Tutor tutor = new Tutor(document.getString("name"), document.getString("email"), document.getString("phoneNumber"), document.getString("subject"), document.getString("classNumber"), document.getString("expyear"), distance);
+                            Tutor tutor = new Tutor(document.getString("name"), document.getString("email"), document.getString("phoneNumber"), document.getString("subject"), document.getString("classNumber"), document.getString("expyear"), distance, "Add");
                             tutorList.add(tutor);
                         }
 
                         //Sort the Tutors by their distance
                         Collections.sort(tutorList, (t1, t2) -> Double.compare(t1.getDistance(), t2.getDistance()));
-                        tutorsNearbyResult.setValue(new TutorsNearbyResult(tutorList));
+                        db.collection("Bookings").whereEqualTo("studentId", user.getUserId()).get().addOnCompleteListener(task2 -> {
+                                    if (task2.isSuccessful() && !task2.getResult().isEmpty()) {
+                                        for (QueryDocumentSnapshot document : task2.getResult()) {
+                                            for (Tutor tutor : tutorList) {
+                                                if (tutor.getEmail().equals(document.getString("tutorId"))) {
+                                                    tutor.setStatus(document.getString("status"));
+                                                }
+
+                                            }
+                                        }
+                                        tutorsNearbyResult.setValue(new TutorsNearbyResult(tutorList));
+                                    } else {
+                                        Log.w(TAG, "Error getting documents.", task2.getException());
+                                        tutorsNearbyResult.setValue(new TutorsNearbyResult(R.string.get_tutor_failed));
+                                    }
+                                }
+
+                        );
                     } else {
                         Log.w(TAG, "Error getting documents.", task.getException());
-                        tutorsNearbyResult.setValue(new TutorsNearbyResult(R.string.login_failed));
+                        tutorsNearbyResult.setValue(new TutorsNearbyResult(R.string.get_tutor_failed));
                     }
                 });
 
     }
+
 
     public void getSubjects(MutableLiveData<SubjectResult> subjectsResult) {
         db.collection("Subjects").get()

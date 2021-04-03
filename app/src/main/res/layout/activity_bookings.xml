@@ -26,17 +26,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.113" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/userRecycler"
-        android:layout_width="359dp"
-        android:layout_height="615dp"
-        android:layout_marginTop="52dp"
-        android:background="@color/white"
-        android:padding="4dp"
-        android:scrollbars="vertical"
+    <ListView
+        android:id="@+id/tutorBooking"
+        android:layout_width="405dp"
+        android:layout_height="591dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include" />
+        app:layout_constraintTop_toBottomOf="@+id/text"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

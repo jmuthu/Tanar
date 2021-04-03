@@ -1,7 +1,5 @@
 package org.tanar.data.model;
 
-import java.util.ArrayList;
-
 public class Tutor {
 
     private String name;
@@ -11,6 +9,7 @@ public class Tutor {
     private String tutClass;
     private String expyear;
     private Double distance;
+    private String status;
 
     public String getName() {
         return name;
@@ -36,7 +35,15 @@ public class Tutor {
         return distance;
     }
 
-    public Tutor(String name, String email, String phonenumber, String subjectList, String tutClass, String expyear, Double distance) {
+    public String getStatus(){
+        return status;
+    }
+
+    public void setStatus(String status){
+        this.status=status;
+    }
+
+    public Tutor(String name, String email, String phonenumber, String subjectList, String tutClass, String expyear, Double distance, String status) {
         this.name = name;
         this.tutClass=tutClass;
         this.email=email;
@@ -44,5 +51,6 @@ public class Tutor {
         this.subjectList = subjectList;
         this.expyear = expyear;
         this.distance = distance;
+        this.status=status;
     }
 }

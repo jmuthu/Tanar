@@ -29,7 +29,7 @@ import java.util.List;
 
 public class StuLandingPage extends AppCompatActivity {
 
-    ImageView list, settings;
+    ImageView settings;
     private ListView tutors;
     private final MutableLiveData<TutorsNearbyResult> tutorNearbyResultMLD = new MutableLiveData<>();
     private Repository repository;
@@ -42,7 +42,6 @@ public class StuLandingPage extends AppCompatActivity {
         repository = Repository.getInstance();
 
         repository.getTutorsNearby(tutorNearbyResultMLD);
-        list=(ImageView) findViewById(R.id.right_icon);
         settings=(ImageView) findViewById(R.id.left_icon);
 
         tutors = findViewById(R.id.tutorPeople);
@@ -64,12 +63,7 @@ public class StuLandingPage extends AppCompatActivity {
 
         });
 
-        list.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //STUDENT APPOINTMENT LIST
-            }
-        });
+
 
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
