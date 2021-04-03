@@ -73,7 +73,7 @@ public class Repository {
         // @see https://developer.android.com/training/articles/keystore
     }
 
-    public void login(String email, String password, MutableLiveData<LoginResult> loginResult) {
+    public void login(String email, String password, MutableLiveData<LoginResult> loginResultMutableLiveData) {
 
         db.collection("Users").whereEqualTo("email", email).whereEqualTo("password", password)
                 .get()
@@ -88,12 +88,12 @@ public class Repository {
                                             document.getDouble("latitude"),
                                             document.getDouble("longitude"),
                                             document.getDouble("altitude"));
-                            loginResult.setValue(new LoginResult(data.getDisplayName()));
                             setLoggedInUser(data);
+                            loginResultMutableLiveData.setValue(new LoginResult(data.getDisplayName()));
                         }
                     } else {
                         Log.w(TAG, "Error getting documents.", task.getException());
-                        loginResult.setValue(new LoginResult(R.string.login_failed));
+                        loginResultMutableLiveData.setValue(new LoginResult(R.string.login_failed));
                     }
                 });
 
@@ -137,21 +137,21 @@ public class Repository {
                            Double longitude,
                            Double altitude,
                            MutableLiveData<CreateUserResult> createUserResultLiveData) {
-        Map<String, Object> user = new HashMap<>();
-        user.put("name", name);
-        user.put("email", email);
-        user.put("classNumber", classNumber);
-        user.put("phoneNumber", phoneNumber);
-        user.put("subject", subject);
-        user.put("expyear", expYear);
-        user.put("password", password);
-        user.put("isTutor", isTutor);
-        user.put("latitude", latitude);
-        user.put("longitude", longitude);
-        user.put("altitude", altitude);
-        user.put("rating", 0.0);
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put("name", name);
+        userMap.put("email", email);
+        userMap.put("classNumber", classNumber);
+        userMap.put("phoneNumber", phoneNumber);
+        userMap.put("subject", subject);
+        userMap.put("expyear", expYear);
+        userMap.put("password", password);
+        userMap.put("isTutor", isTutor);
+        userMap.put("latitude", latitude);
+        userMap.put("longitude", longitude);
+        userMap.put("altitude", altitude);
+        userMap.put("rating", 0.0);
 
-        db.collection("Users").document(email).set(user)
+        db.collection("Users").document(email).set(userMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -169,7 +169,7 @@ public class Repository {
                 });
     }
 
-    public void getTutorsNearby(MutableLiveData<TutorsNearbyResult> tutorsNearbyResult) {
+    public void getTutorsNearby(MutableLiveData<TutorsNearbyResult> tutorsNearbyResultMutableLiveData) {
         db.collection("Users").whereEqualTo("isTutor", true).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
@@ -205,17 +205,17 @@ public class Repository {
 
                                             }
                                         }
-                                        tutorsNearbyResult.setValue(new TutorsNearbyResult(tutorList));
+                                        tutorsNearbyResultMutableLiveData.setValue(new TutorsNearbyResult(tutorList));
                                     } else {
                                         Log.w(TAG, "Error getting documents.", bookingTask.getException());
-                                        tutorsNearbyResult.setValue(new TutorsNearbyResult(R.string.get_tutor_failed));
+                                        tutorsNearbyResultMutableLiveData.setValue(new TutorsNearbyResult(R.string.get_tutor_failed));
                                     }
                                 }
 
                         );
                     } else {
                         Log.w(TAG, "Error getting documents.", task.getException());
-                        tutorsNearbyResult.setValue(new TutorsNearbyResult(R.string.get_tutor_failed));
+                        tutorsNearbyResultMutableLiveData.setValue(new TutorsNearbyResult(R.string.get_tutor_failed));
                     }
                 });
 
@@ -266,7 +266,7 @@ public class Repository {
     }
 
 
-    public void getSubjects(MutableLiveData<SubjectResult> subjectsResult) {
+    public void getSubjects(MutableLiveData<SubjectResult> subjectResultMutableLiveData) {
         db.collection("Subjects").get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && !task.getResult().isEmpty()) {
@@ -276,10 +276,10 @@ public class Repository {
                             Subject subject = new Subject(document.getId(), document.getString("Name"));
                             subjectList.add(subject);
                         }
-                        subjectsResult.setValue(new SubjectResult(subjectList));
+                        subjectResultMutableLiveData.setValue(new SubjectResult(subjectList));
                     } else {
                         Log.w(TAG, "Error getting documents.", task.getException());
-                        subjectsResult.setValue(new SubjectResult(R.string.login_failed));
+                        subjectResultMutableLiveData.setValue(new SubjectResult(R.string.login_failed));
                     }
                 });
     }
